@@ -11,15 +11,7 @@ def queue_generation_task(campaign_name, schedule_idx):
     Constructs the rich payload, generates the callbacks, and creates the Integration Request.
     """
     filters = [["Campaign Email Schedule", "idx", "=", schedule_idx]]
-    fields = [
-        "*", 
-        "campaign_name.*",
-        "campaign_email_schedules.email_template.*",
-        "recipient.*", 
-        "recipient.fcrm_notes", 
-        "recipient.organization.*", 
-        "recipient.organization.fcrm_notes"
-    ]
+    fields = ["*"]
     
     agent_payload = get_campaign_payload(name=campaign_name, filters=filters, fields=fields)
     
