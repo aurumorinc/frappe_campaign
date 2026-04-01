@@ -84,3 +84,10 @@ class TestCRMOrganization(IntegrationTestCase):
         org_names = [o.name for o in orgs]
         self.assertNotIn(self.org1.name, org_names)
         self.assertIn(self.org2.name, org_names)
+
+    def test_get_organizations_with_limit(self):
+        filters = '[["CRM Lead", "source", "=", "Cold Email"]]'
+        fields = '["name", "organization_name"]'
+        
+        orgs = get_crm_organizations(filters=filters, fields=fields, limit=1)
+        self.assertEqual(len(orgs), 1)

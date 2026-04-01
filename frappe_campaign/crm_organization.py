@@ -15,16 +15,17 @@ def get(filters=None, fields=None, limit=None):
     if not fields:
         fields = ["name"]
         
-    limit_kwargs = {}
+    limit_val = None
     if limit is not None:
         try:
-            limit_kwargs["limit_page_length"] = int(limit)
+            limit_val = int(limit)
         except ValueError:
             pass
         
     # We use our custom get_crm_leads method to fetch the leads with 'organization'
-    # By passing the 'filters', it handles standard lead filters plus our custom 'exclude_campaign'
-    leads = get_crm_leads(filters=filters, fields=["organization"], limit=limit)
+    # By passing the 'filters', it handles standard lead filters plus our custom 'exclude_campaign'.
+    # We set limit=0 to get ALL matching leads, so we can group their organizations accurately.
+    leads = get_crm_leads(filters=filters, fields=["organization"], limit=0)
     
     # Extract unique organizations
     org_names = list(set([lead.get("organization") for lead in leads if lead.get("organization")]))
@@ -32,12 +33,15 @@ def get(filters=None, fields=None, limit=None):
     if not org_names:
         return []
         
+    # Apply the limit to the unique organizations list
+    if limit_val and limit_val > 0:
+        org_names = org_names[:limit_val]
+        
     # Fetch the actual organization records
     organizations = frappe.get_all(
         "CRM Organization", 
         filters={"name": ("in", org_names)}, 
-        fields=fields,
-        **limit_kwargs
+        fields=fields
     )
     
     return organizations
