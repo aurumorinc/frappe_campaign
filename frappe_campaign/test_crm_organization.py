@@ -1,4 +1,5 @@
 import frappe
+import json
 from frappe.tests import IntegrationTestCase
 from frappe_campaign.crm_organization import get as get_crm_organizations
 
@@ -7,15 +8,22 @@ class TestCRMOrganization(IntegrationTestCase):
     def setUpClass(cls):
         super().setUpClass()
         
+        if not frappe.db.exists("Website Status", "TestActive"):
+            frappe.get_doc({"doctype": "Website Status", "status": "TestActive"}).insert()
+        if not frappe.db.exists("Website Status", "TestInactive"):
+            frappe.get_doc({"doctype": "Website Status", "status": "TestInactive"}).insert()
+
         # 1. Create Organizations
         cls.org1 = frappe.get_doc({
             "doctype": "CRM Organization",
-            "organization_name": "_Test Org 1"
+            "organization_name": "_Test Org 1",
+            "website_status": "TestActive"
         }).insert(ignore_permissions=True, ignore_mandatory=True, ignore_links=True)
         
         cls.org2 = frappe.get_doc({
             "doctype": "CRM Organization",
-            "organization_name": "_Test Org 2"
+            "organization_name": "_Test Org 2",
+            "website_status": "TestInactive"
         }).insert(ignore_permissions=True, ignore_mandatory=True, ignore_links=True)
         
         # 2. Create Campaign
@@ -91,3 +99,24 @@ class TestCRMOrganization(IntegrationTestCase):
         
         orgs = get_crm_organizations(filters=filters, fields=fields, limit=1)
         self.assertEqual(len(orgs), 1)
+
+    def test_dot_notation_filter_list(self):
+        filters = '[["CRM Lead", "organization.website_status", "=", "TestActive"]]'
+        orgs = get_crm_organizations(filters=filters, fields='["name"]')
+        org_names = [o.name for o in orgs]
+        self.assertIn(self.org1.name, org_names)
+        self.assertNotIn(self.org2.name, org_names)
+
+    def test_dot_notation_filter_dict(self):
+        filters = json.dumps({"organization.website_status": "TestInactive"})
+        orgs = get_crm_organizations(filters=filters, fields='["name"]')
+        org_names = [o.name for o in orgs]
+        self.assertNotIn(self.org1.name, org_names)
+        self.assertIn(self.org2.name, org_names)
+
+    def test_dot_notation_deep(self):
+        filters = '[["CRM Lead", "organization.website_status.status", "=", "TestActive"]]'
+        orgs = get_crm_organizations(filters=filters, fields='["name"]')
+        org_names = [o.name for o in orgs]
+        self.assertIn(self.org1.name, org_names)
+        self.assertNotIn(self.org2.name, org_names)
