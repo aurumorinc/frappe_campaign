@@ -8,7 +8,7 @@
  "field_order": [
   "website",
   "mhtml",
-  "screenshot",
+  "image",
   "column_break_4",
   "reference_doctype",
   "reference_name"
@@ -27,9 +27,9 @@
    "label": "mHTML Data"
   },
   {
-   "fieldname": "screenshot",
+   "fieldname": "image",
    "fieldtype": "Attach Image",
-   "label": "Screenshot"
+   "label": "Image"
   },
   {
    "fieldname": "column_break_4",
