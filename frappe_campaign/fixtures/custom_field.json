@@ -287,5 +287,27 @@
   "module": "Campaign",
   "name": "CRM Organization-website_status",
   "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Lead",
+  "fieldname": "enrichment_status",
+  "fieldtype": "Link",
+  "options": "Enrichment Status",
+  "insert_after": "campaigns",
+  "label": "Enrichment Status",
+  "module": "Campaign",
+  "name": "CRM Lead-enrichment_status",
+  "doctype": "Custom Field"
+ },
+ {
+  "dt": "CRM Organization",
+  "fieldname": "enrichment_status",
+  "fieldtype": "Link",
+  "options": "Enrichment Status",
+  "insert_after": "website_status",
+  "label": "Enrichment Status",
+  "module": "Campaign",
+  "name": "CRM Organization-enrichment_status",
+  "doctype": "Custom Field"
  }
 ]
