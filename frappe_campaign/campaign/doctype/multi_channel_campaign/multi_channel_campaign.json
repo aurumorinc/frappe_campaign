@@ -1,21 +1,19 @@
 {
  "actions": [],
- "autoname": "format:MAIL-CAMP-{YYYY}-{#####}",
+ "autoname": "format:MC-CAMP-{YYYY}-{#####}",
  "creation": "2019-06-30 16:05:30.015615",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "campaign_name",
-  "email_campaign_for",
+  "campaign_for",
   "recipient",
   "sender",
   "column_break_4",
   "start_date",
   "end_date",
-  "status",
-  "campaign_email_schedules_section",
-  "campaign_email_schedules"
+  "status"
  ],
  "fields": [
   {
@@ -51,10 +49,10 @@
   },
   {
    "default": "CRM Lead",
-   "fieldname": "email_campaign_for",
+   "fieldname": "campaign_for",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Email Campaign For ",
+   "label": "Campaign For",
    "options": "\nCRM Lead\nContact\nEmail Group",
    "reqd": 1
   },
@@ -62,7 +60,7 @@
    "fieldname": "recipient",
    "fieldtype": "Dynamic Link",
    "label": "Recipient",
-   "options": "email_campaign_for",
+   "options": "campaign_for",
    "reqd": 1
   },
   {
@@ -71,24 +69,13 @@
    "fieldtype": "Link",
    "label": "Sender",
    "options": "User"
-  },
-  {
-   "fieldname": "campaign_email_schedules_section",
-   "fieldtype": "Section Break",
-   "label": "Campaign Email Schedules"
-  },
-  {
-   "fieldname": "campaign_email_schedules",
-   "fieldtype": "Table",
-   "label": "Campaign Email Schedules",
-   "options": "Campaign Email Schedule"
   }
  ],
  "links": [],
  "modified": "2024-03-27 13:09:36.177528",
  "modified_by": "Administrator",
  "module": "Campaign",
- "name": "Email Campaign",
+ "name": "Multi Channel Campaign",
  "owner": "Administrator",
  "permissions": [
   {
