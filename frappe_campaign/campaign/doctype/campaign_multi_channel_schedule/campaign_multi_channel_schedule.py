@@ -6,7 +6,7 @@
 from frappe.model.document import Document
 
 
-class CampaignEmailSchedule(Document):
+class CampaignMultiChannelSchedule(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -15,7 +15,8 @@ class CampaignEmailSchedule(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		email_template: DF.Link
+		reference_doctype: DF.Link
+		reference_name: DF.DynamicLink
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
