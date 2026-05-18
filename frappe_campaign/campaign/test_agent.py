@@ -73,11 +73,13 @@ class TestAgentUtils(IntegrationTestCase):
         else:
             camp = frappe.get_all("Multi Channel Campaign", filters={"campaign_name": "_Test Master Campaign"}, limit=1)[0]
             cls.campaign_name = camp.name
-            
-        frappe.db.commit()
+
+    @classmethod
+    def tearDownClass(cls):
+        frappe.db.rollback()
+        super().tearDownClass()
 
     def setUp(self):
-        frappe.db.rollback()
         frappe.db.delete("Communication", {"reference_name": self.campaign_name})
         frappe.cache().delete_value(f"ai_req:{self.campaign_name}:{self.schedule_name}")
         
