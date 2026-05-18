@@ -309,5 +309,15 @@
   "module": "Campaign",
   "name": "CRM Organization-enrichment_status",
   "doctype": "Custom Field"
+ },
+ {
+  "dt": "Communication",
+  "fieldname": "campaign_schedule",
+  "fieldtype": "Data",
+  "insert_after": "reference_name",
+  "label": "Campaign Schedule",
+  "module": "Campaign",
+  "name": "Communication-campaign_schedule",
+  "doctype": "Custom Field"
  }
 ]
