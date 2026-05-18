@@ -44,7 +44,7 @@ app_license = "mit"
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {"Communication" : "campaign/doctype/communication/communication_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -152,14 +152,19 @@ doc_events = {
 scheduler_events = {
 	"daily": [
 		"frappe_campaign.utils.enrichment.check_and_mark_stale_enrichments"
-	],
-	"cron": {
-		"*/65 * * * *": [
-			"frappe_campaign.campaign.doctype.email_campaign.email_campaign.requeue_timed_out_generations"
-		]
-	}
+	]
 }
 
+# Controller Events
+# -----------------
+
+controller_events = {
+	"frappe_campaign.campaign.agent.process_campaign_step": {
+		"rate_limit_per_minute": 50,
+		"retries": 3,
+		"timeout": 300
+	}
+}
 
 # Testing
 # -------
