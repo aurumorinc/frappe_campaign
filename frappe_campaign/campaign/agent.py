@@ -17,7 +17,7 @@ def process_campaign_step(campaign_name, schedule_name, previous_schedule_name=N
         prev_comm = frappe.get_all("Communication", filters={
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": campaign_name,
-            "campaign_schedule_reference": previous_schedule_name,
+            "campaign_schedule": previous_schedule_name,
             "delivery_status": ["in", ["Scheduled", "Sent"]]
         })
         if not prev_comm:
@@ -31,7 +31,7 @@ def process_campaign_step(campaign_name, schedule_name, previous_schedule_name=N
     curr_comm = frappe.get_all("Communication", filters={
         "reference_doctype": "Multi Channel Campaign",
         "reference_name": campaign_name,
-        "campaign_schedule_reference": schedule_name,
+        "campaign_schedule": schedule_name,
         "delivery_status": ["in", ["Scheduled", "Sent"]]
     })
     if curr_comm:
@@ -55,7 +55,7 @@ def process_campaign_step(campaign_name, schedule_name, previous_schedule_name=N
             "content": template.get("message") or template.get("response"),
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": campaign_name,
-            "campaign_schedule_reference": schedule_name,
+            "campaign_schedule": schedule_name,
             "status": "Open",
             "delivery_status": "Scheduled"
         })
@@ -67,7 +67,7 @@ def process_campaign_step(campaign_name, schedule_name, previous_schedule_name=N
         draft_comm = frappe.get_all("Communication", filters={
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": campaign_name,
-            "campaign_schedule_reference": schedule_name,
+            "campaign_schedule": schedule_name,
             "status": "Open"
         })
         
@@ -78,7 +78,7 @@ def process_campaign_step(campaign_name, schedule_name, previous_schedule_name=N
                 "subject": f"Draft {channel} Message",
                 "reference_doctype": "Multi Channel Campaign",
                 "reference_name": campaign_name,
-                "campaign_schedule_reference": schedule_name,
+                "campaign_schedule": schedule_name,
                 "status": "Open"
             })
             comm.insert(ignore_permissions=True)

@@ -103,7 +103,7 @@ class TestAgentUtils(IntegrationTestCase):
             "subject": "Test",
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": self.campaign_name,
-            "campaign_schedule_reference": self.prev_schedule_name,
+            "campaign_schedule": self.prev_schedule_name,
             "delivery_status": "Sent"
         }).insert(ignore_permissions=True)
 
@@ -135,7 +135,7 @@ class TestAgentUtils(IntegrationTestCase):
             "subject": "Test",
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": self.campaign_name,
-            "campaign_schedule_reference": self.schedule_name,
+            "campaign_schedule": self.schedule_name,
             "delivery_status": "Scheduled"
         }).insert(ignore_permissions=True)
 
@@ -158,7 +158,7 @@ class TestAgentUtils(IntegrationTestCase):
             
             process_campaign_step(self.campaign_name, self.schedule_name)
             
-        comm = frappe.get_all("Communication", filters={"campaign_schedule_reference": self.schedule_name})
+        comm = frappe.get_all("Communication", filters={"campaign_schedule": self.schedule_name})
         self.assertTrue(comm)
         mock_emit.assert_called_once_with("campaign_step_completed", {"campaign_name": self.campaign_name, "schedule_name": self.schedule_name})
 
@@ -202,7 +202,7 @@ class TestAgentUtils(IntegrationTestCase):
             "subject": "Test",
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": self.campaign_name,
-            "campaign_schedule_reference": self.schedule_name,
+            "campaign_schedule": self.schedule_name,
             "status": "Open"
         }).insert(ignore_permissions=True)
         
@@ -294,7 +294,7 @@ class TestAgentUtils(IntegrationTestCase):
             "subject": "Test",
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": self.campaign_name,
-            "campaign_schedule_reference": self.schedule_name,
+            "campaign_schedule": self.schedule_name,
             "status": "Open"
         }).insert(ignore_permissions=True)
 
