@@ -27,7 +27,7 @@ class MultiChannelCampaign(Document):
                 comm = frappe.get_all("Communication", filters={
                     "reference_doctype": "Multi Channel Campaign",
                     "reference_name": self.name,
-                    "campaign_schedule_reference": schedule.name
+                    "campaign_schedule": schedule.name
                 }, fields=["name", "delivery_status"])
                 
                 if comm:

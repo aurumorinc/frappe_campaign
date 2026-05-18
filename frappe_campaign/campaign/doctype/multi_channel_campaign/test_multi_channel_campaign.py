@@ -153,7 +153,7 @@ class TestMultiChannelCampaign(IntegrationTestCase):
             "subject": "Test",
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": self.campaign.name,
-            "campaign_schedule_reference": self.master_campaign.campaign_schedules[0].name,
+            "campaign_schedule": self.master_campaign.campaign_schedules[0].name,
             "delivery_status": "Sent"
         }).insert(ignore_permissions=True)
         
@@ -180,7 +180,7 @@ class TestMultiChannelCampaign(IntegrationTestCase):
             "subject": "Test",
             "reference_doctype": "Multi Channel Campaign",
             "reference_name": self.campaign.name,
-            "campaign_schedule_reference": self.master_campaign.campaign_schedules[0].name,
+            "campaign_schedule": self.master_campaign.campaign_schedules[0].name,
             "delivery_status": "Scheduled"
         }).insert(ignore_permissions=True)
         
