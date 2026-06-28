@@ -5,15 +5,15 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "campaign_name"
+  "cadence_name"
  ],
  "fields": [
   {
-   "fieldname": "campaign_name",
+   "fieldname": "cadence_name",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Campaign",
-   "options": "Campaign",
+   "label": "Cadence",
+   "options": "Cadence",
    "reqd": 1
   }
  ],
@@ -21,8 +21,8 @@
  "istable": 1,
  "modified": "2024-03-16 12:00:00.000000",
  "modified_by": "Administrator",
- "module": "Campaign",
- "name": "CRM Lead Campaign",
+ "module": "Cadence",
+ "name": "CRM Lead Cadence",
  "owner": "Administrator",
  "permissions": [],
  "sort_field": "modified",
