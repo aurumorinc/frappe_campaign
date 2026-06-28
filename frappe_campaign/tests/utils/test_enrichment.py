@@ -19,6 +19,9 @@ class TestEnrichmentUtils(FrappeTestCase):
         frappe.db.delete("CRM Lead")
         frappe.db.delete("CRM Organization")
 
+    def tearDown(self):
+        frappe.db.rollback()
+
     def create_history(self, ref_dt, ref_dn, months_ago):
         history = frappe.get_doc({
             "doctype": "History",
