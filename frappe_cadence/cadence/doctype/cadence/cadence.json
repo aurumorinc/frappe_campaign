@@ -4,31 +4,31 @@
  "allow_rename": 1,
  "autoname": "naming_series:",
  "creation": "2013-01-10 16:34:18",
- "description": "Keep Track of Sales Campaigns. Keep track of Leads, Quotations, Sales Order etc from Campaigns to gauge Return on Investment. ",
+ "description": "Keep Track of Sales Cadences. Keep track of Leads, Quotations, Sales Order etc from Cadences to gauge Return on Investment. ",
  "doctype": "DocType",
  "document_type": "Setup",
  "engine": "InnoDB",
  "field_order": [
-  "campaign",
-  "campaign_name",
+  "cadence",
+  "cadence_name",
   "naming_series",
-  "campaign_schedules_section",
-  "campaign_schedules",
+  "cadence_schedules_section",
+  "cadence_schedules",
   "description_section",
   "description"
  ],
  "fields": [
   {
-   "fieldname": "campaign",
+   "fieldname": "cadence",
    "fieldtype": "Section Break",
-   "label": "Campaign",
+   "label": "Cadence",
    "oldfieldtype": "Section Break"
   },
   {
-   "fieldname": "campaign_name",
+   "fieldname": "cadence_name",
    "fieldtype": "Data",
-   "label": "Campaign Name",
-   "oldfieldname": "campaign_name",
+   "label": "Cadence Name",
+   "oldfieldname": "cadence_name",
    "oldfieldtype": "Data",
    "reqd": 1
   },
@@ -40,15 +40,15 @@
    "set_only_once": 1
   },
   {
-   "fieldname": "campaign_schedules_section",
+   "fieldname": "cadence_schedules_section",
    "fieldtype": "Section Break",
-   "label": "Campaign Schedules"
+   "label": "Cadence Schedules"
   },
   {
-   "fieldname": "campaign_schedules",
+   "fieldname": "cadence_schedules",
    "fieldtype": "Table",
-   "label": "Campaign Schedules",
-   "options": "Campaign Multi Channel Schedule"
+   "label": "Cadence Schedules",
+   "options": "Cadence Multi Channel Schedule"
   },
   {
    "fieldname": "description_section",
@@ -69,8 +69,8 @@
  "links": [],
  "modified": "2024-03-27 13:06:43.861206",
  "modified_by": "Administrator",
- "module": "Campaign",
- "name": "Campaign",
+ "module": "Cadence",
+ "name": "Cadence",
  "owner": "Administrator",
  "permissions": [
   {
