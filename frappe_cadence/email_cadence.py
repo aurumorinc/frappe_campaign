@@ -197,7 +197,7 @@ def enrich_doc(doc_dict, doctype, field_tree):
 def get(name=None, filters=None, fields=None):
 	"""
 	Highly efficient endpoint for n8n to fetch all context in a single network request.
-	Returns the exact Email Campaign document structure, dynamically enriching fields based
+	Returns the exact Email Cadence document structure, dynamically enriching fields based
 	on dot-notation parameters (e.g. recipient.*, recipient.organization.*, etc.).
 	Accepts either 'name' directly, or standard Frappe 'filters'.
 	"""
@@ -215,37 +215,37 @@ def get(name=None, filters=None, fields=None):
 			
 		parent_filters = []
 		for f in filters:
-			if len(f) >= 4 and f[0] == "Campaign Email Schedule":
+			if len(f) >= 4 and f[0] == "Cadence Email Schedule":
 				child_filters.append(f)
 			else:
 				parent_filters.append(f)
 
 		if parent_filters and not name:
-			matched_campaigns = frappe.get_all("Email Campaign", filters=parent_filters, pluck="name", limit=1)
-			if not matched_campaigns:
-				frappe.throw(_("Email Campaign not found matching filters"), frappe.DoesNotExistError)
-			name = matched_campaigns[0]
+			matched_cadences = frappe.get_all("Email Cadence", filters=parent_filters, pluck="name", limit=1)
+			if not matched_cadences:
+				frappe.throw(_("Email Cadence not found matching filters"), frappe.DoesNotExistError)
+			name = matched_cadences[0]
 			
 	if not name:
 		frappe.throw(_("Please provide name or filters"), frappe.ValidationError)
 		
-	campaign = frappe.get_doc("Email Campaign", name)
-	payload = campaign.as_dict()
+	cadence = frappe.get_doc("Email Cadence", name)
+	payload = cadence.as_dict()
 	
 	field_tree = build_field_tree(fields)
-	enrich_doc(payload, "Email Campaign", field_tree)
+	enrich_doc(payload, "Email Cadence", field_tree)
 	
-	# Dynamically weave Apollo Sequence Config if campaign_name exists
+	# Dynamically weave Apollo Sequence Config if cadence_name exists
 	step_map = {}
-	if campaign.campaign_name and campaign.sender:
+	if cadence.cadence_name and cadence.sender:
 		sequence = frappe.get_all(
 			"Sequence",
-			filters={"campaign": campaign.campaign_name, "sender": campaign.sender},
-			fields=["name", "emailer_campaign_id", "email_account_id"],
+			filters={"cadence": cadence.cadence_name, "sender": cadence.sender},
+			fields=["name", "emailer_cadence_id", "email_account_id"],
 			limit=1
 		)
 		if sequence:
-			payload["emailer_campaign_id"] = sequence[0].emailer_campaign_id
+			payload["emailer_cadence_id"] = sequence[0].emailer_cadence_id
 			payload["email_account_id"] = sequence[0].email_account_id
 			
 			seq_steps = frappe.get_all(
@@ -258,11 +258,11 @@ def get(name=None, filters=None, fields=None):
 	# Prepare Jinja Context (kept separate from payload so n8n only gets rendered prompts)
 	context = payload.copy()
 	
-	if campaign.email_campaign_for and campaign.recipient:
-		lead_link = LazyDocumentLink(campaign.recipient, campaign.email_campaign_for)
+	if cadence.email_cadence_for and cadence.recipient:
+		lead_link = LazyDocumentLink(cadence.recipient, cadence.email_cadence_for)
 		
 		# Lazily populate the context with Recipient fields
-		meta = frappe.get_meta(campaign.email_campaign_for)
+		meta = frappe.get_meta(cadence.email_cadence_for)
 		for f in meta.fields:
 			context[f.fieldname] = LazyProp(lead_link, f.fieldname)
 			
@@ -273,9 +273,9 @@ def get(name=None, filters=None, fields=None):
 		context["fcrm_notes"] = LazyProp(lead_link, "fcrm_notes")
 		context["recipient"] = lead_link # Keep it available via {{ recipient.first_name }} too
 
-	# Filter and Enrich Campaign Email Schedules
+	# Filter and Enrich Cadence Email Schedules
 	filtered_schedules = []
-	for schedule in payload.get("campaign_email_schedules", []):
+	for schedule in payload.get("cadence_email_schedules", []):
 		if child_filters:
 			match = True
 			for cf in child_filters:
@@ -305,19 +305,19 @@ def get(name=None, filters=None, fields=None):
 			
 		filtered_schedules.append(schedule)
 
-	payload["campaign_email_schedules"] = filtered_schedules
+	payload["cadence_email_schedules"] = filtered_schedules
 	return payload
 
 
 @frappe.whitelist()
-def update(name=None, filters=None, campaign_email_schedules=None, integration_request_id=None):
+def update(name=None, filters=None, cadence_email_schedules=None, integration_request_id=None):
 	"""
 	API for n8n to update email schedules.
-	Accepts filters as query parameters to locate the Campaign, updates the schedule, and resolves the Integration Request.
+	Accepts filters as query parameters to locate the Cadence, updates the schedule, and resolves the Integration Request.
 	"""
 	if frappe.session.user == "Guest":
-		campaign_agent_webhook_secret = frappe.conf.get("campaign_agent_webhook_secret")
-		if campaign_agent_webhook_secret:
+		cadence_agent_webhook_secret = frappe.conf.get("cadence_agent_webhook_secret")
+		if cadence_agent_webhook_secret:
 			if not hasattr(frappe, "request") or not frappe.request:
 				frappe.throw(_("Invalid request context for webhook verification"), frappe.PermissionError)
 				
@@ -328,7 +328,7 @@ def update(name=None, filters=None, campaign_email_schedules=None, integration_r
 			payload = frappe.request.get_data()
 			
 			expected_signature = hmac.new(
-				campaign_agent_webhook_secret.encode("utf-8"),
+				cadence_agent_webhook_secret.encode("utf-8"),
 				payload,
 				hashlib.sha256
 			).hexdigest()
@@ -336,33 +336,33 @@ def update(name=None, filters=None, campaign_email_schedules=None, integration_r
 			if not hmac.compare_digest(signature, expected_signature):
 				frappe.throw(_("Invalid Webhook Signature"), frappe.PermissionError)
 		else:
-			frappe.throw(_("Webhook secret not configured. Agent integration requires campaign_agent_webhook_secret in site config."), frappe.PermissionError)
+			frappe.throw(_("Webhook secret not configured. Agent integration requires cadence_agent_webhook_secret in site config."), frappe.PermissionError)
 
 	if filters:
 		if isinstance(filters, str):
 			filters = json.loads(filters)
-		matched_campaigns = frappe.get_all("Email Campaign", filters=filters, pluck="name", limit=1)
-		if matched_campaigns:
-			name = matched_campaigns[0]
+		matched_cadences = frappe.get_all("Email Cadence", filters=filters, pluck="name", limit=1)
+		if matched_cadences:
+			name = matched_cadences[0]
 
 	if not name:
-		frappe.throw(_("Could not locate Email Campaign via name or filters."))
+		frappe.throw(_("Could not locate Email Cadence via name or filters."))
 		
-	campaign = frappe.get_doc("Email Campaign", name)
+	cadence = frappe.get_doc("Email Cadence", name)
 	
-	if campaign.status not in ["", None, "Draft"]:
+	if cadence.status not in ["", None, "Draft"]:
 		# Ignore retry requests if already generated or failed to prevent Convoy from getting stuck in a retry loop
-		return {"status": "ignored", "reason": "Campaign status is already {0}".format(campaign.status)}
+		return {"status": "ignored", "reason": "Cadence status is already {0}".format(cadence.status)}
 	
-	if isinstance(campaign_email_schedules, str):
-		campaign_email_schedules = json.loads(campaign_email_schedules)
+	if isinstance(cadence_email_schedules, str):
+		cadence_email_schedules = json.loads(cadence_email_schedules)
 		
 	# if a single dictionary is passed instead of a list, wrap it in a list
-	if isinstance(campaign_email_schedules, dict):
-		campaign_email_schedules = [campaign_email_schedules]
+	if isinstance(cadence_email_schedules, dict):
+		cadence_email_schedules = [cadence_email_schedules]
 		
-	for s_data in campaign_email_schedules:
-		for s in campaign.campaign_email_schedules:
+	for s_data in cadence_email_schedules:
+		for s in cadence.cadence_email_schedules:
 			# match by name or by idx
 			if s.name == s_data.get("name") or (s_data.get("idx") and s.idx == int(s_data.get("idx"))):
 				# Dynamically update any field provided in the payload
@@ -371,13 +371,13 @@ def update(name=None, filters=None, campaign_email_schedules=None, integration_r
 						s.set(field_name, value)
 				break
 	
-	campaign.flags.ignore_validate = True
-	campaign.save(ignore_permissions=True)
+	cadence.flags.ignore_validate = True
+	cadence.save(ignore_permissions=True)
 
 	# Complete the Integration Request audit log
 	if integration_request_id:
 		doc = frappe.get_doc("Integration Request", integration_request_id)
 		if doc.status != "Completed":
-			doc.handle_success({"campaign_email_schedules": campaign_email_schedules})
+			doc.handle_success({"cadence_email_schedules": cadence_email_schedules})
 
 	return {"status": "success"}

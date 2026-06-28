@@ -21,7 +21,7 @@ def get(filters=None, fields=None, limit=None):
             pass
         
     standard_filters = []
-    excluded_campaigns = []
+    excluded_cadences = []
     
     if isinstance(filters, dict):
         # We need to process dot notation for dict filters as well
@@ -65,14 +65,14 @@ def get(filters=None, fields=None, limit=None):
                 operator = f[2] if len(f) == 4 else f[1]
                 value = f[3] if len(f) == 4 else f[2]
                 
-                # Intercept the CRM Lead Campaign exclusion filter
-                # We ignore fieldname (whether it is 'name' or 'campaign_name')
-                # and assume the value contains the campaign IDs to exclude.
-                if doctype == "CRM Lead Campaign" and operator.lower() in ("not in", "!="):
+                # Intercept the CRM Lead Cadence exclusion filter
+                # We ignore fieldname (whether it is 'name' or 'cadence_name')
+                # and assume the value contains the cadence IDs to exclude.
+                if doctype == "CRM Lead Cadence" and operator.lower() in ("not in", "!="):
                     if isinstance(value, list):
-                        excluded_campaigns.extend(value)
+                        excluded_cadences.extend(value)
                     else:
-                        excluded_campaigns.append(value)
+                        excluded_cadences.append(value)
                     continue
                     
                 if "." in fieldname:
@@ -98,14 +98,14 @@ def get(filters=None, fields=None, limit=None):
                         
             standard_filters.append(f)
             
-    if excluded_campaigns:
-        campaign_leads = frappe.get_all(
-            "CRM Lead Campaign", 
-            filters={"campaign_name": ("in", excluded_campaigns)}, 
+    if excluded_cadences:
+        cadence_leads = frappe.get_all(
+            "CRM Lead Cadence", 
+            filters={"cadence_name": ("in", excluded_cadences)}, 
             pluck="parent"
         )
-        if campaign_leads:
-            standard_filters.append(["name", "not in", campaign_leads])
+        if cadence_leads:
+            standard_filters.append(["name", "not in", cadence_leads])
             
     # Fetch leads using standard Frappe logic
     leads = frappe.get_all("CRM Lead", filters=standard_filters, fields=fields, **limit_kwargs)

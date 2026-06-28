@@ -1,5 +1,5 @@
-app_name = "frappe_campaign"
-app_title = "Frappe Campaign"
+app_name = "frappe_cadence"
+app_title = "Frappe Cadence"
 app_publisher = "Aryan Singh"
 app_description = "Open-Source Cold Outreach & Sales Engagement Automation"
 app_email = "aquiveal@gmail.com"
@@ -13,11 +13,11 @@ app_license = "mit"
 # Each item in the list will be shown as an app in the apps page
 # add_to_apps_screen = [
 # 	{
-# 		"name": "frappe_campaign",
-# 		"logo": "/assets/frappe_campaign/logo.png",
-# 		"title": "Frappe Campaign",
-# 		"route": "/frappe_campaign",
-# 		"has_permission": "frappe_campaign.api.permission.has_app_permission"
+# 		"name": "frappe_cadence",
+# 		"logo": "/assets/frappe_cadence/logo.png",
+# 		"title": "Frappe Cadence",
+# 		"route": "/frappe_cadence",
+# 		"has_permission": "frappe_cadence.api.permission.has_app_permission"
 # 	}
 # ]
 
@@ -25,15 +25,15 @@ app_license = "mit"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/frappe_campaign/css/frappe_campaign.css"
-# app_include_js = "/assets/frappe_campaign/js/frappe_campaign.js"
+# app_include_css = "/assets/frappe_cadence/css/frappe_cadence.css"
+# app_include_js = "/assets/frappe_cadence/js/frappe_cadence.js"
 
 # include js, css files in header of web template
-# web_include_css = "/assets/frappe_campaign/css/frappe_campaign.css"
-# web_include_js = "/assets/frappe_campaign/js/frappe_campaign.js"
+# web_include_css = "/assets/frappe_cadence/css/frappe_cadence.css"
+# web_include_js = "/assets/frappe_cadence/js/frappe_cadence.js"
 
 # include custom scss in every website theme (without file extension ".scss")
-# website_theme_scss = "frappe_campaign/public/scss/website"
+# website_theme_scss = "frappe_cadence/public/scss/website"
 
 # include js, css files in header of web form
 # webform_include_js = {"doctype": "public/js/doctype.js"}
@@ -44,14 +44,14 @@ app_license = "mit"
 
 # include js in doctype views
 # doctype_js = {"doctype" : "public/js/doctype.js"}
-doctype_list_js = {"Communication" : "campaign/doctype/communication/communication_list.js"}
+doctype_list_js = {"Communication" : "cadence/doctype/communication/communication_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
 # Svg Icons
 # ------------------
 # include app icons in desk
-# app_include_icons = "frappe_campaign/public/icons.svg"
+# app_include_icons = "frappe_cadence/public/icons.svg"
 
 # Home Pages
 # ----------
@@ -79,43 +79,43 @@ doctype_list_js = {"Communication" : "campaign/doctype/communication/communicati
 # add methods and filters to jinja environment
 jinja = {
 	"methods": [
-		"frappe_campaign.utils.jinja.get_sequence_message"
+		"frappe_cadence.utils.jinja.get_sequence_message"
 	]
 }
 
 # Installation
 # ------------
 
-# before_install = "frappe_campaign.install.before_install"
-# after_install = "frappe_campaign.install.after_install"
+# before_install = "frappe_cadence.install.before_install"
+# after_install = "frappe_cadence.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "frappe_campaign.uninstall.before_uninstall"
-# after_uninstall = "frappe_campaign.uninstall.after_uninstall"
+# before_uninstall = "frappe_cadence.uninstall.before_uninstall"
+# after_uninstall = "frappe_cadence.uninstall.after_uninstall"
 
 # Integration Setup
 # ------------------
 # To set up dependencies/integrations with other apps
 # Name of the app being installed is passed as an argument
 
-# before_app_install = "frappe_campaign.utils.before_app_install"
-# after_app_install = "frappe_campaign.utils.after_app_install"
+# before_app_install = "frappe_cadence.utils.before_app_install"
+# after_app_install = "frappe_cadence.utils.after_app_install"
 
 # Integration Cleanup
 # -------------------
 # To clean up dependencies/integrations with other apps
 # Name of the app being uninstalled is passed as an argument
 
-# before_app_uninstall = "frappe_campaign.utils.before_app_uninstall"
-# after_app_uninstall = "frappe_campaign.utils.after_app_uninstall"
+# before_app_uninstall = "frappe_cadence.utils.before_app_uninstall"
+# after_app_uninstall = "frappe_cadence.utils.after_app_uninstall"
 
 # Desk Notifications
 # ------------------
 # See frappe.core.notifications.get_notification_config
 
-# notification_config = "frappe_campaign.notifications.get_notification_config"
+# notification_config = "frappe_cadence.notifications.get_notification_config"
 
 # Permissions
 # -----------
@@ -136,13 +136,13 @@ jinja = {
 doc_events = {
 	"Email Template": {
 		"before_save": [
-			"frappe_campaign.utils.email_template.before_save"
+			"frappe_cadence.utils.email_template.before_save"
 		]
 	},
-	"Email Campaign": {
-		"after_insert": "frappe_campaign.utils.crm_lead.sync_lead_campaign",
-		"on_update": "frappe_campaign.utils.crm_lead.sync_lead_campaign",
-		"on_trash": "frappe_campaign.utils.crm_lead.remove_lead_campaign"
+	"Email Cadence": {
+		"after_insert": "frappe_cadence.utils.crm_lead.sync_lead_cadence",
+		"on_update": "frappe_cadence.utils.crm_lead.sync_lead_cadence",
+		"on_trash": "frappe_cadence.utils.crm_lead.remove_lead_cadence"
 	}
 }
 
@@ -151,7 +151,7 @@ doc_events = {
 
 scheduler_events = {
 	"daily": [
-		"frappe_campaign.utils.enrichment.check_and_mark_stale_enrichments"
+		"frappe_cadence.utils.enrichment.check_and_mark_stale_enrichments"
 	]
 }
 
@@ -159,7 +159,7 @@ scheduler_events = {
 # -----------------
 
 controller_events = {
-	"frappe_campaign.campaign.agent.process_campaign_step": {
+	"frappe_cadence.cadence.agent.process_cadence_step": {
 		"rate_limit_per_minute": 50,
 		"retries": 3,
 		"timeout": 300
@@ -169,28 +169,28 @@ controller_events = {
 # Testing
 # -------
 
-# before_tests = "frappe_campaign.install.before_tests"
+# before_tests = "frappe_cadence.install.before_tests"
 
 # Extend DocType Class
 # ------------------------------
 #
 # Specify custom mixins to extend the standard doctype controller.
 # extend_doctype_class = {
-# 	"Task": "frappe_campaign.custom.task.CustomTaskMixin"
+# 	"Task": "frappe_cadence.custom.task.CustomTaskMixin"
 # }
 
 # Overriding Methods
 # ------------------------------
 #
 # override_whitelisted_methods = {
-# 	"frappe.desk.doctype.event.event.get_events": "frappe_campaign.event.get_events"
+# 	"frappe.desk.doctype.event.event.get_events": "frappe_cadence.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-# 	"Task": "frappe_campaign.task.get_dashboard_data"
+# 	"Task": "frappe_cadence.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -204,13 +204,13 @@ controller_events = {
 
 # Request Events
 # ----------------
-# before_request = ["frappe_campaign.utils.before_request"]
-# after_request = ["frappe_campaign.utils.after_request"]
+# before_request = ["frappe_cadence.utils.before_request"]
+# after_request = ["frappe_cadence.utils.after_request"]
 
 # Job Events
 # ----------
-# before_job = ["frappe_campaign.utils.before_job"]
-# after_job = ["frappe_campaign.utils.after_job"]
+# before_job = ["frappe_cadence.utils.before_job"]
+# after_job = ["frappe_cadence.utils.after_job"]
 
 # User Data Protection
 # --------------------
@@ -240,7 +240,7 @@ controller_events = {
 # --------------------------------
 
 # auth_hooks = [
-# 	"frappe_campaign.auth.validate"
+# 	"frappe_cadence.auth.validate"
 # ]
 
 # Automatically update python controller files with type annotations for this app.
@@ -259,6 +259,6 @@ require_type_annotated_api_methods = True
 # ignore_translatable_strings_from = []
 
 fixtures = [
-	{"dt": "Custom Field", "filters": [["module", "in", ["Campaign", "CRM"]]]},
-	{"dt": "Property Setter", "filters": [["module", "in", ["Campaign"]]]}
+	{"dt": "Custom Field", "filters": [["module", "in", ["Cadence", "CRM"]]]},
+	{"dt": "Property Setter", "filters": [["module", "in", ["Cadence"]]]}
 ]

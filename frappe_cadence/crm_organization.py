@@ -1,6 +1,6 @@
 import frappe
 import json
-from frappe_campaign.crm_lead import get as get_crm_leads
+from frappe_cadence.crm_lead import get as get_crm_leads
 
 @frappe.whitelist()
 def get(filters=None, fields=None, limit=None):
@@ -23,7 +23,7 @@ def get(filters=None, fields=None, limit=None):
             pass
         
     # We use our custom get_crm_leads method to fetch the leads with 'organization'
-    # By passing the 'filters', it handles standard lead filters plus our custom 'exclude_campaign'.
+    # By passing the 'filters', it handles standard lead filters plus our custom 'exclude_cadence'.
     # We set limit=0 to get ALL matching leads, so we can group their organizations accurately.
     leads = get_crm_leads(filters=filters, fields=["organization"], limit=0)
     
