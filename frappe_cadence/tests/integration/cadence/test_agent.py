@@ -71,38 +71,19 @@ class TestAgentUtils(IntegrationTestCase):
             }).insert(ignore_permissions=True)
             cls.cadence_name = camp.name
         else:
-<<<<<<< ours:frappe_cadence/tests/integration/cadence/test_agent.py
             camp = frappe.get_all("Multi Channel Cadence", filters={"cadence_name": "_Test Master Cadence"}, limit=1)[0]
             cls.cadence_name = camp.name
-||||||| ancestor
-            camp = frappe.get_all("Multi Channel Campaign", filters={"campaign_name": "_Test Master Campaign"}, limit=1)[0]
-            cls.campaign_name = camp.name
-            
+
         frappe.db.commit()
-=======
-            camp = frappe.get_all("Multi Channel Campaign", filters={"campaign_name": "_Test Master Campaign"}, limit=1)[0]
-            cls.campaign_name = camp.name
->>>>>>> theirs:frappe_campaign/campaign/test_agent.py
 
     @classmethod
     def tearDownClass(cls):
         frappe.db.rollback()
-<<<<<<< ours:frappe_cadence/tests/integration/cadence/test_agent.py
         super().tearDownClass()
 
     def setUp(self):
         frappe.db.delete("Communication", {"reference_name": self.cadence_name})
         frappe.cache().delete_value(f"ai_req:{self.cadence_name}:{self.schedule_name}")
-||||||| ancestor
-        frappe.db.delete("Communication", {"reference_name": self.campaign_name})
-        frappe.cache().delete_value(f"ai_req:{self.campaign_name}:{self.schedule_name}")
-=======
-        super().tearDownClass()
-
-    def setUp(self):
-        frappe.db.delete("Communication", {"reference_name": self.campaign_name})
-        frappe.cache().delete_value(f"ai_req:{self.campaign_name}:{self.schedule_name}")
->>>>>>> theirs:frappe_campaign/campaign/test_agent.py
         
         frappe.conf["cadence_agent_base_url"] = "http://test.com"
         frappe.conf["cadence_agent_api_key"] = "test"
@@ -194,7 +175,7 @@ class TestAgentUtils(IntegrationTestCase):
         with patch("frappe_cadence.cadence.agent.frappe.get_doc") as mock_get_doc:
             
             mock_schedule = frappe._dict(reference_doctype="Email Template", reference_name="Test Email Template")
-            mock_template = frappe._dict(status="Prompt", subject="Test", system_prompt="Sys", user_prompt="User")
+            mock_template = frappe._dict(status="Prompt", subject="Test")
             mock_cadence = frappe._dict(cadence_for="CRM Lead", recipient=self.lead_name, name=self.cadence_name)
             mock_lead = frappe._dict(name=self.lead_name, organization=None)
             
@@ -233,7 +214,7 @@ class TestAgentUtils(IntegrationTestCase):
         with patch("frappe_cadence.cadence.agent.frappe.get_doc") as mock_get_doc:
             
             mock_schedule = frappe._dict(reference_doctype="Email Template", reference_name="Test Email Template")
-            mock_template = frappe._dict(status="Prompt", subject="Test", system_prompt="Sys", user_prompt="User")
+            mock_template = frappe._dict(status="Prompt", subject="Test")
             
             def side_effect(*args, **kwargs):
                 dt = args[0] if args else kwargs.get("doctype")
@@ -256,7 +237,7 @@ class TestAgentUtils(IntegrationTestCase):
         with patch("frappe_cadence.cadence.agent.frappe.get_doc") as mock_get_doc:
             
             mock_schedule = frappe._dict(reference_doctype="Email Template", reference_name="Test Email Template")
-            mock_template = frappe._dict(status="Prompt", subject="Test", system_prompt="Sys", user_prompt="User")
+            mock_template = frappe._dict(status="Prompt", subject="Test")
             mock_cadence = frappe._dict(cadence_for="CRM Lead", recipient=self.lead_name, name=self.cadence_name)
             mock_lead = frappe._dict(name=self.lead_name, organization=None)
             
@@ -287,7 +268,7 @@ class TestAgentUtils(IntegrationTestCase):
         with patch("frappe_cadence.cadence.agent.frappe.get_doc") as mock_get_doc:
             
             mock_schedule = frappe._dict(reference_doctype="LinkedIn Template", reference_name="Test LinkedIn Template")
-            mock_template = frappe._dict(status="Prompt", system_prompt="Sys", user_prompt="User")
+            mock_template = frappe._dict(status="Prompt")
             mock_cadence = frappe._dict(cadence_for="CRM Lead", recipient=self.lead_name, name=self.cadence_name)
             mock_lead = frappe._dict(name=self.lead_name, organization=None)
             
