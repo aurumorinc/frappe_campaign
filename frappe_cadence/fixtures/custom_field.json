@@ -2074,5 +2074,16 @@
   "module": "Cadence",
   "name": "Email Template-annotations",
   "insert_after": "response"
+ },
+ {
+  "dt": "Email Template",
+  "fieldname": "sift_id",
+  "fieldtype": "Data",
+  "hidden": 1,
+  "label": "Sift ID",
+  "doctype": "Custom Field",
+  "module": "Cadence",
+  "name": "Email Template-sift_id",
+  "insert_after": "annotations"
  }
 ]
