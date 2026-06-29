@@ -3,14 +3,12 @@
 
 frappe.ui.form.on("Cadence", {
 	refresh: function (frm) {
-		erpnext.toggle_naming_series();
-
 		if (frm.is_new()) {
-			frm.toggle_display(
-				"naming_series",
-				frappe.boot.sysdefaults.cadence_naming_by == "Naming Series"
-			);
+			frm.toggle_display("cadence_code", false);
+			frm.toggle_reqd("cadence_code", 0);
+			frm.toggle_display("naming_series", true);
 		} else {
+			frm.toggle_display("naming_series", false);
 			frm.add_custom_button(
 				__("View Leads"),
 				function () {

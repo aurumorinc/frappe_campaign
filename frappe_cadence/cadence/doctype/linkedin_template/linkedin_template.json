@@ -8,9 +8,7 @@
   "title",
   "status",
   "message",
-  "prompt_section",
-  "user_prompt",
-  "system_prompt"
+  "annotations"
  ],
  "fields": [
   {
@@ -33,19 +31,10 @@
    "label": "Message"
   },
   {
-   "fieldname": "prompt_section",
-   "fieldtype": "Section Break",
-   "label": "Prompt"
-  },
-  {
-   "fieldname": "user_prompt",
-   "fieldtype": "Text Editor",
-   "label": "User Prompt"
-  },
-  {
-   "fieldname": "system_prompt",
-   "fieldtype": "Text Editor",
-   "label": "System Prompt"
+   "fieldname": "annotations",
+   "fieldtype": "Table",
+   "label": "Annotations",
+   "options": "Annotation"
   }
  ],
  "links": [],

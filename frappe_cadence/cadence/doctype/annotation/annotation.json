@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "creation": "2024-06-11 10:00:00.000000",
+ "custom": 1,
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "reference_doctype",
+  "reference_name",
+  "input",
+  "output",
+  "score",
+  "feedback"
+ ],
+ "fields": [
+  {
+   "fieldname": "reference_doctype",
+   "fieldtype": "Data",
+   "label": "Reference DocType",
+   "hidden": 1
+  },
+  {
+   "fieldname": "reference_name",
+   "fieldtype": "Data",
+   "label": "Reference Name",
+   "hidden": 1
+  },
+  {
+   "fieldname": "input",
+   "fieldtype": "Text Editor",
+   "label": "Input"
+  },
+  {
+   "fieldname": "output",
+   "fieldtype": "Text Editor",
+   "label": "Output"
+  },
+  {
+   "fieldname": "score",
+   "fieldtype": "Float",
+   "label": "Score"
+  },
+  {
+   "fieldname": "feedback",
+   "fieldtype": "Text Editor",
+   "label": "Feedback"
+  }
+ ],
+ "istable": 1,
+ "links": [],
+ "modified": "2024-06-11 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Cadence",
+ "name": "Annotation",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

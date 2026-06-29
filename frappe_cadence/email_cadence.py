@@ -287,15 +287,6 @@ def get(name=None, filters=None, fields=None):
 				continue
 
 		template_dict = schedule.get("email_template")
-		if isinstance(template_dict, dict):
-			# Render prompts if they exist
-			if template_dict.get("user_prompt"):
-				rendered_html = frappe.render_template(template_dict["user_prompt"], context)
-				template_dict["user_prompt"] = md(rendered_html).strip()
-			
-			if template_dict.get("system_prompt"):
-				rendered_html = frappe.render_template(template_dict["system_prompt"], context)
-				template_dict["system_prompt"] = md(rendered_html).strip()
 
 		# Dynamically weave Step IDs
 		s_idx = str(schedule.get("idx"))

@@ -3,7 +3,6 @@
 
 import frappe
 from frappe.model.document import Document
-from frappe.model.naming import set_name_by_naming_series
 
 
 class Cadence(Document):
@@ -22,33 +21,35 @@ class Cadence(Document):
 		cadence_name: DF.Data
 		cadence_schedules: DF.Table[CadenceMultiChannelSchedule]
 		description: DF.Text | None
-		naming_series: DF.Literal["SAL-CAM-.YYYY.-"]
+		cadence_code: DF.Data
+		naming_series: DF.Literal["CAD-.YYYY.-"]
 	# end: auto-generated types
 
 	def autoname(self):
-		if frappe.defaults.get_global_default("cadence_naming_by") != "Naming Series":
-			self.name = self.cadence_name
-		else:
+		if not self.cadence_code:
+			from frappe.model.naming import set_name_by_naming_series
 			set_name_by_naming_series(self)
+			self.cadence_code = self.name
+		self.name = self.cadence_code
 
 	def after_insert(self):
-		if frappe.db.exists("UTM Campaign", self.cadence_name):
-			mc = frappe.get_doc("UTM Campaign", self.cadence_name)
+		if frappe.db.exists("UTM Campaign", self.name):
+			mc = frappe.get_doc("UTM Campaign", self.name)
 		else:
 			mc = frappe.new_doc("UTM Campaign")
-			mc.name = self.cadence_name
+			mc.name = self.name
 		mc.cadence_description = self.description
-		mc.crm_cadence = self.cadence_name
+		mc.crm_cadence = self.name
 		mc.save(ignore_permissions=True)
 
 	def on_change(self):
-		if frappe.db.exists("UTM Campaign", self.cadence_name):
-			mc = frappe.get_doc("UTM Campaign", self.cadence_name)
+		if frappe.db.exists("UTM Campaign", self.name):
+			mc = frappe.get_doc("UTM Campaign", self.name)
 		else:
 			mc = frappe.new_doc("UTM Campaign")
-			mc.name = self.cadence_name
+			mc.name = self.name
 		mc.cadence_description = self.description
-		mc.crm_cadence = self.cadence_name
+		mc.crm_cadence = self.name
 		mc.save(ignore_permissions=True)
 
 	def on_update(self):

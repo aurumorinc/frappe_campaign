@@ -2,7 +2,7 @@
  "actions": [],
  "allow_import": 1,
  "allow_rename": 1,
- "autoname": "naming_series:",
+ "autoname": "field:cadence_code",
  "creation": "2013-01-10 16:34:18",
  "description": "Keep Track of Sales Cadences. Keep track of Leads, Quotations, Sales Order etc from Cadences to gauge Return on Investment. ",
  "doctype": "DocType",
@@ -12,6 +12,7 @@
   "cadence",
   "cadence_name",
   "naming_series",
+  "cadence_code",
   "cadence_schedules_section",
   "cadence_schedules",
   "description_section",
@@ -36,8 +37,16 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Naming Series",
-   "options": "SAL-CAM-.YYYY.-",
+   "options": "CAD-.YYYY.-",
    "set_only_once": 1
+  },
+  {
+   "fieldname": "cadence_code",
+   "fieldtype": "Data",
+   "label": "Cadence Code",
+   "reqd": 1,
+   "set_only_once": 1,
+   "unique": 1
   },
   {
    "fieldname": "cadence_schedules_section",

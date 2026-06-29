@@ -144,12 +144,12 @@ def process_cadence_step(cadence_name, schedule_name, previous_schedule_name=Non
                 "input": [
                     {
                         "role": "system",
-                        "content": [{"type": "input_text", "text": template.system_prompt}]
+                        "content": [{"type": "input_text", "text": getattr(template, "system_prompt", "")}]
                     },
                     {
                         "role": "user",
                         "content": [
-                            {"type": "input_text", "text": template.user_prompt}
+                            {"type": "input_text", "text": getattr(template, "user_prompt", "") or (template.annotations[-1].input if getattr(template, "annotations", None) else "")}
                         ]
                     }
                 ]
