@@ -8,9 +8,8 @@
   "title",
   "status",
   "message",
-  "prompt_section",
-  "user_prompt",
-  "system_prompt"
+  "annotations",
+  "sift_id"
  ],
  "fields": [
   {
@@ -33,19 +32,16 @@
    "label": "Message"
   },
   {
-   "fieldname": "prompt_section",
-   "fieldtype": "Section Break",
-   "label": "Prompt"
+   "fieldname": "annotations",
+   "fieldtype": "Table",
+   "label": "Annotations",
+   "options": "Annotation"
   },
   {
-   "fieldname": "user_prompt",
-   "fieldtype": "Text Editor",
-   "label": "User Prompt"
-  },
-  {
-   "fieldname": "system_prompt",
-   "fieldtype": "Text Editor",
-   "label": "System Prompt"
+   "fieldname": "sift_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Sift ID"
   }
  ],
  "links": [],

@@ -8,7 +8,8 @@
   "title",
   "status",
   "message",
-  "annotations"
+  "annotations",
+  "sift_id"
  ],
  "fields": [
   {
@@ -35,6 +36,12 @@
    "fieldtype": "Table",
    "label": "Annotations",
    "options": "Annotation"
+  },
+  {
+   "fieldname": "sift_id",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Sift ID"
   }
  ],
  "links": [],
